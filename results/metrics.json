@@ -1,0 +1,104 @@
+{
+ "questions": 2000,
+ "paragraphs": 2067,
+ "index_seconds": {
+  "bm25": 0.1,
+  "dense": 26.4
+ },
+ "systems": {
+  "bm25": {
+   "recall@1": 0.7625,
+   "recall@5": 0.9135,
+   "recall@10": 0.944,
+   "mrr@10": 0.8284,
+   "recall@1_ci95": [
+    0.745,
+    0.781
+   ],
+   "latency_ms_per_query": 2.2
+  },
+  "dense": {
+   "recall@1": 0.6935,
+   "recall@5": 0.895,
+   "recall@10": 0.9395,
+   "mrr@10": 0.7798,
+   "recall@1_ci95": [
+    0.6735,
+    0.7135
+   ],
+   "latency_ms_per_query": 2.6
+  },
+  "hybrid (BM25 + dense, RRF)": {
+   "recall@1": 0.77,
+   "recall@5": 0.94,
+   "recall@10": 0.973,
+   "mrr@10": 0.844,
+   "recall@1_ci95": [
+    0.7525,
+    0.7885
+   ],
+   "latency_ms_per_query": 4.9
+  },
+  "hybrid + rerank top 20": {
+   "recall@1": 0.863,
+   "recall@5": 0.9715,
+   "recall@10": 0.984,
+   "mrr@10": 0.9107,
+   "recall@1_ci95": [
+    0.8475,
+    0.8775
+   ],
+   "latency_ms_per_query": 98.7
+  }
+ },
+ "sample_failures": [
+  {
+   "question": "What is the last name of the player who was Manning's top receiver for Super Bowl 50?",
+   "gold": 52,
+   "top1": 42,
+   "gold_in_candidates": true
+  },
+  {
+   "question": "What did Tesla claim to be able to transmit?",
+   "gold": 206,
+   "top1": 185,
+   "gold_in_candidates": false
+  },
+  {
+   "question": "Who may also submit private bills to Parliament?",
+   "gold": 1833,
+   "top1": 1829,
+   "gold_in_candidates": true
+  },
+  {
+   "question": "Apollo 17 was significant for what reason?",
+   "gold": 715,
+   "top1": 690,
+   "gold_in_candidates": true
+  },
+  {
+   "question": "What were casualties of battle?",
+   "gold": 2000,
+   "top1": 1179,
+   "gold_in_candidates": true
+  },
+  {
+   "question": "What is the group called that does not agree with government at all?",
+   "gold": 1291,
+   "top1": 1281,
+   "gold_in_candidates": true
+  },
+  {
+   "question": "In what areas does most of the learning take place?",
+   "gold": 299,
+   "top1": 290,
+   "gold_in_candidates": true
+  },
+  {
+   "question": "Who formed the universal theory of gravitation?",
+   "gold": 2045,
+   "top1": 2048,
+   "gold_in_candidates": true
+  }
+ ]
+}

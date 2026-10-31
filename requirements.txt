@@ -1,0 +1,5 @@
+rank-bm25>=0.2.2
+fastembed>=0.3
+qdrant-client>=1.9
+numpy>=1.26
+pytest>=8

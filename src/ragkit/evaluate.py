@@ -18,6 +18,10 @@ def main() -> None:
     ap.add_argument("--rerank-top", type=int, default=20, help="candidates passed to the reranker")
     ap.add_argument("--out", default="results")
     a = ap.parse_args()
+    if a.n < 1:
+        ap.error("--n must be positive")
+    if not 1 <= a.rerank_top <= 50:
+        ap.error("--rerank-top must be between 1 and the 50 fused candidates")
 
     paragraphs, questions = data.build(data.load())
     qs = data.sample(questions, a.n)

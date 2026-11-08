@@ -3,12 +3,13 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import time
+from pathlib import Path
 
 from . import data
+from .evidence import compare_records, question_records, write_report
 from .fusion import rrf
-from .metrics import bootstrap_ci, recall_at_k, summarise
+from .metrics import cluster_bootstrap_ci, recall_at_k, summarise
 from .retrievers import BM25, Dense, Reranker
 
 
@@ -23,8 +24,11 @@ def main() -> None:
     if not 1 <= a.rerank_top <= 50:
         ap.error("--rerank-top must be between 1 and the 50 fused candidates")
 
-    paragraphs, questions = data.build(data.load())
+    raw = data.load()
+    paragraphs, questions = data.build(raw)
+    articles = data.paragraph_articles(raw)
     qs = data.sample(questions, a.n)
+    clusters = [articles[gold] for _, gold in qs]
     print(f"{len(paragraphs)} paragraphs, {len(questions)} questions, evaluating {len(qs)}", flush=True)
 
     t = time.perf_counter()
@@ -53,14 +57,17 @@ def main() -> None:
         for name, r in ((("bm25"), r_b), ("dense", r_d), (h, r_h), (rk, r_r)):
             runs[name].append((r, gold))
         if recall_at_k(r_r, gold, 1) == 0 and len(failures) < 8:
-            failures.append({"question": q, "gold": gold, "top1": r_r[0], "gold_in_candidates": gold in r_h[: a.rerank_top]})
+            failures.append({"question": q, "gold": gold, "top1": r_r[0] if r_r else None,
+                             "gold_in_candidates": gold in r_h[: a.rerank_top]})
 
     n = len(qs)
     res = {}
     for name, rr in runs.items():
         m = summarise(rr)
-        lo, hi = bootstrap_ci([recall_at_k(r, g, 1) for r, g in rr])
-        res[name] = {**{k: round(v, 4) for k, v in m.items()}, "recall@1_ci95": [round(lo, 4), round(hi, 4)]}
+        interval = (cluster_bootstrap_ci([recall_at_k(r, g, 1) for r, g in rr], clusters)
+                    if len(set(clusters)) >= 2 else None)
+        res[name] = {**{k: round(v, 4) for k, v in m.items()},
+                     "recall@1_ci95": [round(v, 4) for v in interval] if interval else None}
     # latency: retrieval time per query; dense and hybrid-rerank add the one-off query embedding time
     emb_ms = 1000 * t_embed / n
     ms = {k: 1000 * v / n for k, v in lat.items()}
@@ -70,9 +77,14 @@ def main() -> None:
     for k in res:
         res[k]["latency_ms_per_query"] = round(ms[k], 1)
     out = {"questions": n, "paragraphs": len(paragraphs), "index_seconds": {"bm25": round(t_bm25_index, 1), "dense": round(t_dense_index, 1)}, "systems": res, "sample_failures": failures}
-    os.makedirs(a.out, exist_ok=True)
-    with open(os.path.join(a.out, "metrics.json"), "w") as fh:
-        json.dump(out, fh, indent=1)
+    out["protocol"] = {"schema_version": 2, "sample_seed": 7, "resampling_unit": "article",
+                       "sampled_articles": len(set(clusters)), "bootstrap_iterations": 2000, "bootstrap_seed": 7,
+                       "estimand": "question-weighted mean; paired candidate minus baseline",
+                       "intervals": "exploratory percentile intervals, no multiple-comparison adjustment",
+                       "insufficient_clusters": len(set(clusters)) < 2}
+    out["per_question"] = question_records(qs, runs, articles)
+    out["comparisons"] = compare_records(out["per_question"])
+    write_report(Path(a.out) / "metrics.json", out)
     print(json.dumps(out, indent=1))
 
 

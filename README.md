@@ -37,7 +37,7 @@ Brackets are the 95% confidence interval for recall@1. Full numbers: [results/me
 
 1. **Keyword search beat vector search at the top spot.** BM25 got the right paragraph first 76% of the time against 69% for embeddings. That is not what most tutorials suggest, and it makes sense here: the questions were written while looking at the paragraph, so they share rare words with it. Measure on your own data before choosing a vector database.
 2. **Fusion helps most at 10 results, not at 1.** Hybrid raised recall@10 from 94.4% to 97.3%, but its recall@1 (77.0%) is within the confidence interval of BM25's (76.3%), so I would not claim a top-1 gain.
-3. **The reranker is the one large, clearly significant gain**: recall@1 from 77% to 86%, with confidence intervals that do not overlap. The cost is latency, about 99 ms per question against 5 ms, because a cross-encoder reads each question together with 20 candidate paragraphs.
+3. **The reranker produced the largest observed gain on this sample**: recall@1 from 77% to 86%, with non-overlapping individual intervals; a paired or article-clustered comparison is not reported. The cost is latency, about 99 ms per question against 5 ms, because a cross-encoder reads each question together with 20 candidate paragraphs.
 4. **Where it still fails:** the report lists sample failures. In the 8 failures sampled in `metrics.json`, 7 had the correct paragraph among the 20 candidates, so the remaining errors are mostly about ordering, not about finding candidates. Many are near-duplicates, for example two paragraphs from the same article about the same topic.
 
 ## Limits, stated plainly
@@ -57,3 +57,8 @@ pytest -q                                              # unit tests for metrics,
 ```
 
 `src/ragkit/` holds the pieces: `retrievers.py` (the three retrievers), `fusion.py` (RRF), `metrics.py` (recall, MRR, bootstrap), `evaluate.py` (the experiment).
+
+## Input and ranking contracts
+Metrics reject nonpositive cutoffs and empty evaluations rather than interpreting negative Python slices as valid top-k results. Fusion gives each ranker at most one vote per document even if an upstream result repeats an ID. The CLI validates query count and rerank depth before loading data or models.
+
+Bootstrap intervals resample the evaluated questions; they do not establish generalization to new articles or corpora, and questions within an article can be correlated. The existing 2,000-question results were not rerun by the lightweight regression tests.

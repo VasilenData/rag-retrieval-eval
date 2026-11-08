@@ -33,6 +33,11 @@ def build(raw: dict) -> tuple[list[str], list[tuple[str, int]]]:
     return paragraphs, questions
 
 
+def paragraph_articles(raw: dict) -> list[int]:
+    """Article cluster for each paragraph id, in exactly the same order as `build`."""
+    return [article_id for article_id, article in enumerate(raw["data"]) for _ in article["paragraphs"]]
+
+
 def sample(questions: list[tuple[str, int]], n: int, seed: int = 7) -> list[tuple[str, int]]:
     if isinstance(n, bool) or not isinstance(n, int) or n < 1 or not questions:
         raise ValueError("sampling requires a positive n and a nonempty question set")

@@ -43,3 +43,34 @@ def bootstrap_ci(values: list[float], iters: int = 1000, seed: int = 0) -> tuple
     n = len(values)
     means = sorted(sum(values[rng.randrange(n)] for _ in range(n)) / n for _ in range(iters))
     return means[int(0.025 * iters)], means[int(0.975 * iters)]
+
+
+def cluster_bootstrap_ci(values: list[float], clusters: list[int], iters: int = 2000,
+                         seed: int = 7) -> tuple[float, float]:
+    """Percentile interval for a question-weighted mean, resampling whole articles.
+
+    A sampled article contributes all its sampled questions, including repetitions
+    when drawn more than once. Pairwise comparisons pass per-question differences,
+    preserving both system pairing and within-article dependence.
+    """
+    import math
+    import random
+    import numpy as np
+    _cutoff(iters)
+    if len(values) != len(clusters) or not values or not all(math.isfinite(v) for v in values):
+        raise ValueError("scores and article clusters must be aligned, nonempty and finite")
+    grouped: dict[int, list[float]] = {}
+    for value, cluster in zip(values, clusters):
+        if isinstance(cluster, bool) or not isinstance(cluster, int):
+            raise ValueError("article cluster ids must be integers")
+        grouped.setdefault(cluster, []).append(value)
+    if len(grouped) < 2:
+        raise ValueError("article bootstrap requires at least two independent article clusters")
+    totals = [(math.fsum(grouped[key]), len(grouped[key])) for key in sorted(grouped)]
+    rng = random.Random(seed)
+    estimates = []
+    for _ in range(iters):
+        drawn = [totals[rng.randrange(len(totals))] for _ in totals]
+        estimates.append(math.fsum(total for total, _ in drawn) / sum(count for _, count in drawn))
+    lo, hi = np.quantile(estimates, [0.025, 0.975])
+    return float(lo), float(hi)

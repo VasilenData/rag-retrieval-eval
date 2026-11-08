@@ -36,7 +36,7 @@ Brackets are the 95% confidence interval for recall@1. Full numbers: [results/me
 ## What this shows
 
 1. **Keyword search beat vector search at the top spot.** BM25 got the right paragraph first 76% of the time against 69% for embeddings. That is not what most tutorials suggest, and it makes sense here: the questions were written while looking at the paragraph, so they share rare words with it. Measure on your own data before choosing a vector database.
-2. **Fusion helps most at 10 results, not at 1.** Hybrid raised recall@10 from 94.4% to 97.3%, but its recall@1 (77.0%) is within the confidence interval of BM25's (76.3%), so I would not claim a top-1 gain.
+2. **Fusion helps most at 10 results, not at 1.** Hybrid raised recall@10 from 94.4% to 97.3%; its observed recall@1 gain was only 0.7 percentage points. The historical aggregate report cannot support a paired uncertainty estimate for that difference, so I would not claim an established top-1 improvement.
 3. **The reranker produced the largest observed gain on this sample**: recall@1 from 77% to 86%, with non-overlapping individual intervals; a paired or article-clustered comparison is not reported. The cost is latency, about 99 ms per question against 5 ms, because a cross-encoder reads each question together with 20 candidate paragraphs.
 4. **Where it still fails:** the report lists sample failures. In the 8 failures sampled in `metrics.json`, 7 had the correct paragraph among the 20 candidates, so the remaining errors are mostly about ordering, not about finding candidates. Many are near-duplicates, for example two paragraphs from the same article about the same topic.
 
@@ -52,7 +52,7 @@ Brackets are the 95% confidence interval for recall@1. Full numbers: [results/me
 
 ```bash
 pip install -r requirements.txt
-PYTHONPATH=src python -m ragkit.evaluate --n 2000      # downloads the data and models, writes results/metrics.json
+PYTHONPATH=src python -m ragkit.evaluate --n 2000 --out results/local-eval  # downloads data/models; preserves historical results
 pytest -q                                              # unit tests for metrics, fusion, BM25 and data handling
 ```
 
@@ -61,4 +61,16 @@ pytest -q                                              # unit tests for metrics,
 ## Input and ranking contracts
 Metrics reject nonpositive cutoffs and empty evaluations rather than interpreting negative Python slices as valid top-k results. Fusion gives each ranker at most one vote per document even if an upstream result repeats an ID. The CLI validates query count and rerank depth before loading data or models.
 
-Bootstrap intervals resample the evaluated questions; they do not establish generalization to new articles or corpora, and questions within an article can be correlated. The existing 2,000-question results were not rerun by the lightweight regression tests.
+The historical intervals above resample individual evaluated questions; within-article correlation is not accounted for. The existing 2,000-question report was not rerun by these lightweight regression tests, and its aggregate scores cannot be converted into paired/clustered results without the original question-level predictions.
+
+## Paired article-cluster evidence for future runs
+
+New evaluations emit schema-version-2 reports containing each sampled question, its gold paragraph and article id, and every system's top-10 paragraph ids plus recall@1/5/10 and MRR@10. Systems are compared on the same question records. Confidence intervals resample entire articles with replacement, preserving all sampled questions in a selected article; the estimand remains a question-weighted mean, not an equally weighted average of article means. Pairwise intervals use candidate-minus-baseline differences inside the same resample. A sample with fewer than two articles reports `null` intervals instead of pretending it has independent clusters.
+
+The report records sampling/bootstrap seeds, iteration count and sampled article count. It is written as one complete atomic snapshot so a failed publication cannot truncate the previous evidence. Recompute comparisons from a new report without loading models:
+
+```bash
+PYTHONPATH=src python -m ragkit.evidence results/local-eval/metrics.json --iterations 2000 --seed 7
+```
+
+These percentile intervals are exploratory and unadjusted for multiple comparisons. They describe variability under article resampling of the sampled SQuAD questions; they do not establish generalization to another corpus, production accuracy, or a calibrated winner-selection procedure. Historical metrics/latency values above remain unchanged. The new protocol is covered by paired-system, within-article duplication, row-order and publication-failure tests plus an end-to-end evaluation using fake retrievers; no new full-model benchmark is claimed.

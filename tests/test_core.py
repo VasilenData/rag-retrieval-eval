@@ -2,6 +2,7 @@ from ragkit.data import build, sample
 from ragkit.fusion import rrf
 from ragkit.metrics import bootstrap_ci, reciprocal_rank, recall_at_k, summarise
 from ragkit.retrievers import BM25, tokenize
+import pytest
 
 
 def test_recall_and_mrr():
@@ -51,3 +52,37 @@ def test_build_and_sample_are_deterministic():
 def test_bootstrap_ci_brackets_the_mean():
     lo, hi = bootstrap_ci([1.0] * 50 + [0.0] * 50)
     assert lo < 0.5 < hi
+
+
+def test_repeated_documents_cannot_buy_extra_fusion_votes():
+    assert rrf([[1, 1, 1, 2], [2, 3]]) == rrf([[1, 2], [2, 3]])
+    assert rrf([[1, 1, 1, 2], [2, 3]])[0] == 2
+
+
+@pytest.mark.parametrize("k", [-1, 0, True, 1.5])
+def test_invalid_metric_cutoffs_are_rejected(k):
+    for metric in (recall_at_k, reciprocal_rank):
+        with pytest.raises(ValueError, match="positive"):
+            metric([1, 2, 3], 2, k)
+
+
+def test_empty_evaluation_cannot_emit_a_misleading_report():
+    with pytest.raises(ValueError):
+        summarise([])
+    with pytest.raises(ValueError):
+        sample([], 10)
+    with pytest.raises(ValueError):
+        sample([("q", 0)], 0)
+    with pytest.raises(ValueError):
+        bootstrap_ci([])
+    with pytest.raises(ValueError):
+        bootstrap_ci([float("nan")])
+
+
+def test_cli_rejects_empty_evaluation_before_loading_data(monkeypatch):
+    from ragkit import evaluate
+    monkeypatch.setattr("sys.argv", ["evaluate", "--n", "0"])
+    monkeypatch.setattr(evaluate.data, "load", lambda: pytest.fail("must validate before downloading data"))
+    with pytest.raises(SystemExit) as exc:
+        evaluate.main()
+    assert exc.value.code == 2

@@ -34,6 +34,8 @@ def build(raw: dict) -> tuple[list[str], list[tuple[str, int]]]:
 
 
 def sample(questions: list[tuple[str, int]], n: int, seed: int = 7) -> list[tuple[str, int]]:
+    if isinstance(n, bool) or not isinstance(n, int) or n < 1 or not questions:
+        raise ValueError("sampling requires a positive n and a nonempty question set")
     if n >= len(questions):
         return questions
     return random.Random(seed).sample(questions, n)

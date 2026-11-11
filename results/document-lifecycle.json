@@ -1,0 +1,287 @@
+{
+ "schema_version": 1,
+ "scope": "real maintained portfolio technical documents converted to four local formats",
+ "query_authorship": "AI-authored source-informed smoke queries; no independent human review or blind benchmark",
+ "initial": {
+  "documents": 4,
+  "updated": 4,
+  "unchanged": 0,
+  "deleted": 0,
+  "source_bytes": 27836,
+  "snapshot_sha256": "23fbf512fd09e099053702d4854026db6af2f0ec9c54e4cc8103e780b90bc67f",
+  "profile": {
+   "version": 1,
+   "chunk_characters": 1600,
+   "overlap_characters": 200,
+   "html": "text excluding script/style/noscript",
+   "json": "one object with a text string",
+   "retriever": "SQLite FTS5 unicode61 BM25; no embeddings or generated answers"
+  },
+  "sources": [
+   {
+    "id": "ff6be4984ee2565b04263d6c22e18a5c4d20507d116b78d76c04acd09a22f174",
+    "path": "customer-value.json",
+    "source_sha256": "a535eb3b52a5350825601c0a39d6eb8baac060716507d58be1ec5fe742ee6700",
+    "text_sha256": "ae5be3202e20d9a5929e000e3174ce5dfcfb70a91dc93f71b481ccf51a6a3729"
+   },
+   {
+    "id": "d04f4141c7d114a4112b0f0c580d97dea19962c1c1ed65b1ec4de772ec2dbd3e",
+    "path": "experiment-design.html",
+    "source_sha256": "3329e37467bc482f2fa93ac01ecd6f752a666e4ec8d9bd9d77123e8f23d089a5",
+    "text_sha256": "ff12f8e6300e5a55f8aa12e44d99bd871cefa01d90544d29ee02219d2ef47165"
+   },
+   {
+    "id": "56882f16d517bf842132bf8cecda541a2973541ca4de02933fbe688f516c07b5",
+    "path": "pickup-forecast.txt",
+    "source_sha256": "eb75293d51312f2be7295404aa4d599b0df3110ca5750eaced20a6cef2aad631",
+    "text_sha256": "bfc594fbe1504c49e618e7f43ac5a790c991afd68153a4307906f626f9117fb2"
+   },
+   {
+    "id": "7cd297abc47cc712b3bfd3c42e5a4cc3edd76f94972c4de7c66634985d6760f7",
+    "path": "taxi-model.md",
+    "source_sha256": "b9cc6b56146ab27de00b8645f00d6e82087604ab1bbdea3136ad81ddad86d1e0",
+    "text_sha256": "d5edd7da4676b37b40b7f0de02a2bd61a7973b6cb03ffa55b9e5e3e9180a8e6a"
+   }
+  ]
+ },
+ "unchanged_scan": {
+  "updated": 0,
+  "unchanged": 4,
+  "deleted": 0,
+  "snapshot_sha256": "23fbf512fd09e099053702d4854026db6af2f0ec9c54e4cc8103e780b90bc67f"
+ },
+ "queries": [
+  {
+   "query": "Why should I avoid grouping experiments by rounds played?",
+   "expected_source": "experiment-design.html",
+   "seconds": 0.003553200000169454,
+   "expected_in_top5_chunks": true,
+   "hits": [
+    {
+     "document_id": "d04f4141c7d114a4112b0f0c580d97dea19962c1c1ed65b1ec4de772ec2dbd3e",
+     "path": "experiment-design.html",
+     "source_sha256": "3329e37467bc482f2fa93ac01ecd6f752a666e4ec8d9bd9d77123e8f23d089a5",
+     "chunk_id": "38433ff7fac0bfd051fc6834ac14168bf7aa59f8779f885f92d9ced7acd75ec7",
+     "bm25": -6.35956281536968
+    },
+    {
+     "document_id": "d04f4141c7d114a4112b0f0c580d97dea19962c1c1ed65b1ec4de772ec2dbd3e",
+     "path": "experiment-design.html",
+     "source_sha256": "3329e37467bc482f2fa93ac01ecd6f752a666e4ec8d9bd9d77123e8f23d089a5",
+     "chunk_id": "b8ee2e3a625f6de602163be56d2444971f551ead4cad6a250b7b76ad656f3dc7",
+     "bm25": -5.85933849584646
+    },
+    {
+     "document_id": "d04f4141c7d114a4112b0f0c580d97dea19962c1c1ed65b1ec4de772ec2dbd3e",
+     "path": "experiment-design.html",
+     "source_sha256": "3329e37467bc482f2fa93ac01ecd6f752a666e4ec8d9bd9d77123e8f23d089a5",
+     "chunk_id": "5c35e905b2fb4825edf5d0da6a6068c62f3a7c1098c5bb42336034032d5d8a65",
+     "bm25": -4.223766617889955
+    },
+    {
+     "document_id": "ff6be4984ee2565b04263d6c22e18a5c4d20507d116b78d76c04acd09a22f174",
+     "path": "customer-value.json",
+     "source_sha256": "a535eb3b52a5350825601c0a39d6eb8baac060716507d58be1ec5fe742ee6700",
+     "chunk_id": "2b0a0548511e255c2276c12983e9700ebfb5420a60f5be814267b7c8e2ab9273",
+     "bm25": -2.5991990601541373
+    },
+    {
+     "document_id": "d04f4141c7d114a4112b0f0c580d97dea19962c1c1ed65b1ec4de772ec2dbd3e",
+     "path": "experiment-design.html",
+     "source_sha256": "3329e37467bc482f2fa93ac01ecd6f752a666e4ec8d9bd9d77123e8f23d089a5",
+     "chunk_id": "4f2e52881472006c83f83eb73e01fd56656bcba21b608ce14d009afea2aa1cbe",
+     "bm25": -1.4373743398278702
+    }
+   ]
+  },
+  {
+   "query": "Can the taxi model predict at booking without a route estimate?",
+   "expected_source": "taxi-model.md",
+   "seconds": 0.0020084999996470287,
+   "expected_in_top5_chunks": true,
+   "hits": [
+    {
+     "document_id": "7cd297abc47cc712b3bfd3c42e5a4cc3edd76f94972c4de7c66634985d6760f7",
+     "path": "taxi-model.md",
+     "source_sha256": "b9cc6b56146ab27de00b8645f00d6e82087604ab1bbdea3136ad81ddad86d1e0",
+     "chunk_id": "af3758ae6be0cb31175973c45adff1cbafec5a65facbfd6334e305941462a295",
+     "bm25": -8.144564065808812
+    },
+    {
+     "document_id": "56882f16d517bf842132bf8cecda541a2973541ca4de02933fbe688f516c07b5",
+     "path": "pickup-forecast.txt",
+     "source_sha256": "eb75293d51312f2be7295404aa4d599b0df3110ca5750eaced20a6cef2aad631",
+     "chunk_id": "823a04e489705a8a23a4a1c3a90b5477728ff9dd570a96a07f05c65629002ba4",
+     "bm25": -3.7939056864911365
+    },
+    {
+     "document_id": "56882f16d517bf842132bf8cecda541a2973541ca4de02933fbe688f516c07b5",
+     "path": "pickup-forecast.txt",
+     "source_sha256": "eb75293d51312f2be7295404aa4d599b0df3110ca5750eaced20a6cef2aad631",
+     "chunk_id": "2d9b41b3867647406d512346f51f629d3614571ed9c996bdc756da2e45a76955",
+     "bm25": -3.613303419887341
+    },
+    {
+     "document_id": "ff6be4984ee2565b04263d6c22e18a5c4d20507d116b78d76c04acd09a22f174",
+     "path": "customer-value.json",
+     "source_sha256": "a535eb3b52a5350825601c0a39d6eb8baac060716507d58be1ec5fe742ee6700",
+     "chunk_id": "f57dbcbfdf3d5f86d7d0076e953ac377e8b1ef109a9259c0e41b609ad426b444",
+     "bm25": -3.162176640544482
+    },
+    {
+     "document_id": "d04f4141c7d114a4112b0f0c580d97dea19962c1c1ed65b1ec4de772ec2dbd3e",
+     "path": "experiment-design.html",
+     "source_sha256": "3329e37467bc482f2fa93ac01ecd6f752a666e4ec8d9bd9d77123e8f23d089a5",
+     "chunk_id": "25ca626e0ebc63dc421c74f3a2a060106aff75e36d0058fe06f9ed22f17ea395",
+     "bm25": -2.8937435002756544
+    }
+   ]
+  },
+  {
+   "query": "How should I interpret coverage below the nominal interval target?",
+   "expected_source": "pickup-forecast.txt",
+   "seconds": 0.002541100000598817,
+   "expected_in_top5_chunks": true,
+   "hits": [
+    {
+     "document_id": "56882f16d517bf842132bf8cecda541a2973541ca4de02933fbe688f516c07b5",
+     "path": "pickup-forecast.txt",
+     "source_sha256": "eb75293d51312f2be7295404aa4d599b0df3110ca5750eaced20a6cef2aad631",
+     "chunk_id": "0c647be659cd227e1e18bb525638de1dcce83d723c5c3cca1fa87112dc34f832",
+     "bm25": -6.2559636929293365
+    },
+    {
+     "document_id": "ff6be4984ee2565b04263d6c22e18a5c4d20507d116b78d76c04acd09a22f174",
+     "path": "customer-value.json",
+     "source_sha256": "a535eb3b52a5350825601c0a39d6eb8baac060716507d58be1ec5fe742ee6700",
+     "chunk_id": "2b0a0548511e255c2276c12983e9700ebfb5420a60f5be814267b7c8e2ab9273",
+     "bm25": -5.198400101748224
+    },
+    {
+     "document_id": "d04f4141c7d114a4112b0f0c580d97dea19962c1c1ed65b1ec4de772ec2dbd3e",
+     "path": "experiment-design.html",
+     "source_sha256": "3329e37467bc482f2fa93ac01ecd6f752a666e4ec8d9bd9d77123e8f23d089a5",
+     "chunk_id": "4f2e52881472006c83f83eb73e01fd56656bcba21b608ce14d009afea2aa1cbe",
+     "bm25": -5.061054471677137
+    },
+    {
+     "document_id": "d04f4141c7d114a4112b0f0c580d97dea19962c1c1ed65b1ec4de772ec2dbd3e",
+     "path": "experiment-design.html",
+     "source_sha256": "3329e37467bc482f2fa93ac01ecd6f752a666e4ec8d9bd9d77123e8f23d089a5",
+     "chunk_id": "38433ff7fac0bfd051fc6834ac14168bf7aa59f8779f885f92d9ced7acd75ec7",
+     "bm25": -4.22726781805366
+    },
+    {
+     "document_id": "7cd297abc47cc712b3bfd3c42e5a4cc3edd76f94972c4de7c66634985d6760f7",
+     "path": "taxi-model.md",
+     "source_sha256": "b9cc6b56146ab27de00b8645f00d6e82087604ab1bbdea3136ad81ddad86d1e0",
+     "chunk_id": "4e36736c9e8347515faa67d00571386838024eba3ad7dec7b799cbc5acdfcb4b",
+     "bm25": -3.807766314186194
+    }
+   ]
+  },
+  {
+   "query": "Does ranking customer future spending prove retention uplift?",
+   "expected_source": "customer-value.json",
+   "seconds": 0.004467499999009306,
+   "expected_in_top5_chunks": true,
+   "hits": [
+    {
+     "document_id": "ff6be4984ee2565b04263d6c22e18a5c4d20507d116b78d76c04acd09a22f174",
+     "path": "customer-value.json",
+     "source_sha256": "a535eb3b52a5350825601c0a39d6eb8baac060716507d58be1ec5fe742ee6700",
+     "chunk_id": "7e85c067c2af2305f0fd31842aa117e2ee52f199d4fa418d41bf474503b62cf4",
+     "bm25": -5.400249747789072
+    },
+    {
+     "document_id": "ff6be4984ee2565b04263d6c22e18a5c4d20507d116b78d76c04acd09a22f174",
+     "path": "customer-value.json",
+     "source_sha256": "a535eb3b52a5350825601c0a39d6eb8baac060716507d58be1ec5fe742ee6700",
+     "chunk_id": "f57dbcbfdf3d5f86d7d0076e953ac377e8b1ef109a9259c0e41b609ad426b444",
+     "bm25": -4.070826289404713
+    },
+    {
+     "document_id": "ff6be4984ee2565b04263d6c22e18a5c4d20507d116b78d76c04acd09a22f174",
+     "path": "customer-value.json",
+     "source_sha256": "a535eb3b52a5350825601c0a39d6eb8baac060716507d58be1ec5fe742ee6700",
+     "chunk_id": "2b0a0548511e255c2276c12983e9700ebfb5420a60f5be814267b7c8e2ab9273",
+     "bm25": -3.882082092003866
+    },
+    {
+     "document_id": "56882f16d517bf842132bf8cecda541a2973541ca4de02933fbe688f516c07b5",
+     "path": "pickup-forecast.txt",
+     "source_sha256": "eb75293d51312f2be7295404aa4d599b0df3110ca5750eaced20a6cef2aad631",
+     "chunk_id": "c077ba0024f4ed26d24b82882b3c39310a507f272fb6514ce57353e0afba87f7",
+     "bm25": -3.795587236603431
+    },
+    {
+     "document_id": "d04f4141c7d114a4112b0f0c580d97dea19962c1c1ed65b1ec4de772ec2dbd3e",
+     "path": "experiment-design.html",
+     "source_sha256": "3329e37467bc482f2fa93ac01ecd6f752a666e4ec8d9bd9d77123e8f23d089a5",
+     "chunk_id": "4f2e52881472006c83f83eb73e01fd56656bcba21b608ce14d009afea2aa1cbe",
+     "bm25": -3.457598526298452
+    }
+   ]
+  }
+ ],
+ "recovery_exercise": {
+  "label": "synthetic local lifecycle exercise",
+  "updated_documents": 1,
+  "concurrent_reader_preserved_old_snapshot": true,
+  "interrupted_update_rolled_back": true,
+  "deleted_documents": 1,
+  "deleted_text_absent": true
+ },
+ "provenance": [
+  {
+   "path": "taxi-model.md",
+   "source_url": "https://github.com/VasilenData/taxi-eta-service/blob/a5bb4cc5cd04a5012b21cbc46f0cfd2a64d86386/docs/MODEL_CARD.md",
+   "source_commit": "a5bb4cc5cd04a5012b21cbc46f0cfd2a64d86386",
+   "original_sha256": "b9cc6b56146ab27de00b8645f00d6e82087604ab1bbdea3136ad81ddad86d1e0",
+   "converted_sha256": "b9cc6b56146ab27de00b8645f00d6e82087604ab1bbdea3136ad81ddad86d1e0",
+   "license": "MIT",
+   "conversion": "same source text encoded as .md"
+  },
+  {
+   "path": "pickup-forecast.txt",
+   "source_url": "https://github.com/VasilenData/nyc-taxi-data-platform/blob/c405224e6902a93e5935e57ed89d9d1c1684382f/docs/FORECASTING.md",
+   "source_commit": "c405224e6902a93e5935e57ed89d9d1c1684382f",
+   "original_sha256": "eb75293d51312f2be7295404aa4d599b0df3110ca5750eaced20a6cef2aad631",
+   "converted_sha256": "eb75293d51312f2be7295404aa4d599b0df3110ca5750eaced20a6cef2aad631",
+   "license": "MIT",
+   "conversion": "same source text encoded as .txt"
+  },
+  {
+   "path": "experiment-design.html",
+   "source_url": "https://github.com/VasilenData/ab-test-analysis/blob/52573ab1ad5bf95daa48a3adc71ef4c93ae342ef/README.md",
+   "source_commit": "52573ab1ad5bf95daa48a3adc71ef4c93ae342ef",
+   "original_sha256": "957bb51d18d4720193f0865c6543103b08d3ef68187a7104b73b068fe2202e9d",
+   "converted_sha256": "3329e37467bc482f2fa93ac01ecd6f752a666e4ec8d9bd9d77123e8f23d089a5",
+   "license": "MIT",
+   "conversion": "same source text encoded as .html"
+  },
+  {
+   "path": "customer-value.json",
+   "source_url": "https://github.com/VasilenData/ecommerce-finance-mart/blob/96ccbd4d0db5d89bb2a2da6a76479f989e1622a7/docs/customer_value.md",
+   "source_commit": "96ccbd4d0db5d89bb2a2da6a76479f989e1622a7",
+   "original_sha256": "fa25da5328e0654daf3fa9acb0e0a4df1f28c9a0e8b01a690092af72ff030c19",
+   "converted_sha256": "a535eb3b52a5350825601c0a39d6eb8baac060716507d58be1ec5fe742ee6700",
+   "license": "MIT",
+   "conversion": "same source text encoded as .json"
+  }
+ ],
+ "runtime": {
+  "python": "3.12.14",
+  "sqlite": "3.53.1"
+ },
+ "code_sha256": {
+  "documents.py": "6b81f149dca6aa2bf772c0d1bc516c6327746182775dec08112ca303bf8eb404",
+  "check_document_lifecycle.py": "6241faf907d64287861137d8e42802b2f0b5dc0b39712d49ebad4d593b1f3f42"
+ },
+ "limits": [
+  "Four documents; not a large messy production corpus or full dense/reranker evaluation.",
+  "Local UTF-8 text/Markdown/HTML/JSON only; PDF/OCR, authentication and remote crawling are not implemented.",
+  "SQLite transaction safety within one local index; no distributed durability or concurrent source-writer guarantee.",
+  "No LLM generation or external API calls; CPU/storage costs are not priced."
+ ]
+}

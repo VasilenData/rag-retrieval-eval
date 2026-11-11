@@ -3,3 +3,6 @@ __pycache__/
 .ruff_cache/
 data/
 results/local-eval/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm

@@ -66,6 +66,20 @@ def compare_records(records, iters: int = 2000, seed: int = 7):
                     or any(isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v)
                            or not 0 <= v <= 1 for v in scores.values())):
                 raise ValueError("all retrieval metrics must be present, finite and in [0, 1]")
+        if "ranked_paragraphs" in row:
+            rankings = row["ranked_paragraphs"]
+            gold = row.get("gold_paragraph_id")
+            if (not isinstance(rankings, dict) or set(rankings) != set(systems)
+                    or isinstance(gold, bool) or not isinstance(gold, int) or gold < 0):
+                raise ValueError("ranked evidence must include every system and a valid gold identity")
+            for name, ranking in rankings.items():
+                if (not isinstance(ranking, list) or len(ranking) > 10 or len(set(ranking)) != len(ranking)
+                        or any(isinstance(doc, bool) or not isinstance(doc, int) or doc < 0 for doc in ranking)):
+                    raise ValueError("saved rankings must contain at most ten distinct paragraph ids")
+                expected = {**{f"recall@{k}": recall_at_k(ranking, gold, k) for k in (1, 5, 10)},
+                            "mrr@10": reciprocal_rank(ranking, gold)}
+                if any(not math.isclose(row["scores"][name][key], value, abs_tol=1e-12) for key, value in expected.items()):
+                    raise ValueError("saved scores do not agree with the preserved rankings")
     clusters = [row["article_id"] for row in records]
     comparisons = []
     for baseline, candidate in itertools.combinations(systems, 2):
@@ -106,6 +120,8 @@ def main():
     if not isinstance(report, dict):
         parser.error("evaluation report must be a JSON object")
     try:
+        if any("ranked_paragraphs" not in row for row in report.get("per_question", [])):
+            raise ValueError("offline report comparisons require preserved rankings, not only supplied scores")
         comparisons = compare_records(report.get("per_question", []), args.iterations, args.seed)
     except (ValueError, KeyError, TypeError) as exc:
         parser.error(str(exc))

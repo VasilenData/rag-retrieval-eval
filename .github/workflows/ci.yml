@@ -13,3 +13,8 @@ jobs:
       - run: pip install -r requirements.txt ruff
       - run: ruff check .
       - run: pytest -q
+      - run: PYTHONPATH=src python scripts/check_document_lifecycle.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: document-lifecycle-evidence
+          path: results/document-lifecycle.json

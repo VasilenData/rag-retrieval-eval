@@ -1,0 +1,38 @@
+[
+  {
+    "path": "taxi-model.md",
+    "source_url": "https://github.com/VasilenData/taxi-eta-service/blob/a5bb4cc5cd04a5012b21cbc46f0cfd2a64d86386/docs/MODEL_CARD.md",
+    "source_commit": "a5bb4cc5cd04a5012b21cbc46f0cfd2a64d86386",
+    "original_sha256": "b9cc6b56146ab27de00b8645f00d6e82087604ab1bbdea3136ad81ddad86d1e0",
+    "converted_sha256": "b9cc6b56146ab27de00b8645f00d6e82087604ab1bbdea3136ad81ddad86d1e0",
+    "license": "MIT",
+    "conversion": "same source text encoded as .md"
+  },
+  {
+    "path": "pickup-forecast.txt",
+    "source_url": "https://github.com/VasilenData/nyc-taxi-data-platform/blob/c405224e6902a93e5935e57ed89d9d1c1684382f/docs/FORECASTING.md",
+    "source_commit": "c405224e6902a93e5935e57ed89d9d1c1684382f",
+    "original_sha256": "eb75293d51312f2be7295404aa4d599b0df3110ca5750eaced20a6cef2aad631",
+    "converted_sha256": "eb75293d51312f2be7295404aa4d599b0df3110ca5750eaced20a6cef2aad631",
+    "license": "MIT",
+    "conversion": "same source text encoded as .txt"
+  },
+  {
+    "path": "experiment-design.html",
+    "source_url": "https://github.com/VasilenData/ab-test-analysis/blob/52573ab1ad5bf95daa48a3adc71ef4c93ae342ef/README.md",
+    "source_commit": "52573ab1ad5bf95daa48a3adc71ef4c93ae342ef",
+    "original_sha256": "957bb51d18d4720193f0865c6543103b08d3ef68187a7104b73b068fe2202e9d",
+    "converted_sha256": "3329e37467bc482f2fa93ac01ecd6f752a666e4ec8d9bd9d77123e8f23d089a5",
+    "license": "MIT",
+    "conversion": "same source text encoded as .html"
+  },
+  {
+    "path": "customer-value.json",
+    "source_url": "https://github.com/VasilenData/ecommerce-finance-mart/blob/96ccbd4d0db5d89bb2a2da6a76479f989e1622a7/docs/customer_value.md",
+    "source_commit": "96ccbd4d0db5d89bb2a2da6a76479f989e1622a7",
+    "original_sha256": "fa25da5328e0654daf3fa9acb0e0a4df1f28c9a0e8b01a690092af72ff030c19",
+    "converted_sha256": "a535eb3b52a5350825601c0a39d6eb8baac060716507d58be1ec5fe742ee6700",
+    "license": "MIT",
+    "conversion": "same source text encoded as .json"
+  }
+]

@@ -125,3 +125,13 @@ def test_offline_comparison_rejects_historical_aggregate_only_report(tmp_path, m
     with pytest.raises(SystemExit) as exc:
         main()
     assert exc.value.code == 2
+
+
+def test_saved_score_cannot_be_forged_without_matching_the_preserved_rankings():
+    rows = question_records([("first", 0), ("second", 1)],
+                            {"baseline": [([0, 1], 0), ([1, 0], 1)],
+                             "candidate": [([1, 0], 0), ([0, 1], 1)]}, [0, 1])
+    assert compare_records(rows)[0]["metrics"]["mrr@10"]["delta"] == -.5
+    rows[0]["scores"]["candidate"]["mrr@10"] = 1.
+    with pytest.raises(ValueError, match="do not agree"):
+        compare_records(rows)

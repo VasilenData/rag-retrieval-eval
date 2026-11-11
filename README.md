@@ -74,3 +74,19 @@ PYTHONPATH=src python -m ragkit.evidence results/local-eval/metrics.json --itera
 ```
 
 These percentile intervals are exploratory and unadjusted for multiple comparisons. They describe variability under article resampling of the sampled SQuAD questions; they do not establish generalization to another corpus, production accuracy, or a calibrated winner-selection procedure. Historical metrics/latency values above remain unchanged. The new protocol is covered by paired-system, within-article duplication, row-order and publication-failure tests plus an end-to-end evaluation using fake retrievers; no new full-model benchmark is claimed.
+
+## Local document search lifecycle
+
+The original SQuAD evaluation remains intact. A new `ragkit.documents` CLI supports bounded UTF-8 text, Markdown, HTML and JSON (`{"text": "..."}`) documents without model downloads:
+
+```bash
+PYTHONPATH=src python -m ragkit.documents sync examples/knowledge-base /tmp/project-search.sqlite --collection portfolio-operations
+PYTHONPATH=src python -m ragkit.documents search /tmp/project-search.sqlite "How is a model safely promoted?"
+PYTHONPATH=src python scripts/check_document_lifecycle.py
+```
+
+Stable document IDs derive from the declared collection and relative path; source/text/chunk hashes preserve content identity. Unchanged documents reuse postings. Updates and deletions, chunk content, source metadata and the collection fingerprint commit in one SQLite transaction. A failed scan or interrupted update leaves the last searchable snapshot intact, including for concurrent readers. An empty scan requires explicit `--allow-empty` before deleting the collection. Limits bound directory entries, documents, individual and total bytes; symlinks/external paths and malformed encodings/documents fail closed.
+
+[Lifecycle evidence](results/document-lifecycle.json) records a real four-document technical knowledge base in four formats, copied from maintained project documentation with source commits and hashes. Four **AI-authored, source-informed smoke queries** found the expected document among the top five chunks. This tiny result is not a blind quality benchmark, independent human assessment or a replacement for the historical dense/reranker evaluation. The report also labels the update/delete/interruption drill as synthetic. FTS5 BM25 scores are ranking values, not confidence probabilities; no LLM answers or paid API calls are involved.
+
+The scope is one local SQLite index, with explicit collection ownership. PDF/OCR, remote crawling, authorization, semantic embeddings and distributed durability are not added. Live source writers must be coordinated externally. Saved SQuAD comparisons now also recompute metrics from retained rankings and reject altered scores before reporting paired differences.
